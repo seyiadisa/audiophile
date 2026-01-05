@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import CartDropdown from "../cart/cart";
 import ProductSections from "../landing/product-sections";
+import { useCart } from "@/providers/cart-provider";
 
 export const HeaderWrapper = () => {
   const pathname = usePathname();
@@ -27,6 +28,7 @@ const navLinks = [
 
 export default function AppHeader({ className }: { className?: string }) {
   const pathname = usePathname();
+  const { cart } = useCart();
   const isTabOrMobile = useIsTablet();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [prevPath, setPrevPath] = useState(pathname);
@@ -74,12 +76,22 @@ export default function AppHeader({ className }: { className?: string }) {
               </Link>
             </div>
             <CartDropdown>
-              <Image
-                src="/svg/shopping-cart.svg"
-                width={23}
-                height={20}
-                alt="My Cart"
-              />
+              <div className="relative flex items-center">
+                {cart.length > 0 && (
+                  <span
+                    className="bg-primary absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 rounded-full px-1.5 py-0.5 text-xs text-white"
+                    aria-label={`${cart.length} items in cart`}
+                  >
+                    {cart.length}
+                  </span>
+                )}
+                <Image
+                  src="/svg/shopping-cart.svg"
+                  width={23}
+                  height={20}
+                  alt="My Cart"
+                />
+              </div>
             </CartDropdown>
           </header>
           {/* Mobile menu */}
@@ -114,12 +126,22 @@ export default function AppHeader({ className }: { className?: string }) {
             </ul>
           </nav>
           <CartDropdown>
-            <Image
-              src="/svg/shopping-cart.svg"
-              width={23}
-              height={20}
-              alt="My Cart"
-            />
+            <div className="relative flex items-center">
+              {cart.length > 0 && (
+                <span
+                  className="bg-primary absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 rounded-full px-1.5 py-0.5 text-xs text-white"
+                  aria-label={`${cart.length} items in cart`}
+                >
+                  {cart.length}
+                </span>
+              )}
+              <Image
+                src="/svg/shopping-cart.svg"
+                width={23}
+                height={20}
+                alt="My Cart"
+              />
+            </div>
           </CartDropdown>
         </header>
       )}
