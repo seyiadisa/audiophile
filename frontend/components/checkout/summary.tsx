@@ -1,14 +1,13 @@
 "use client";
 
 import { formatPrice } from "@/lib/utils";
-import { useCart } from "@/providers/cart-provider";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import CheckoutConfirmation from "./confirmation-modal";
+import { type Cart } from "@/types";
 
-export default function CheckoutSummary() {
-  const { cart } = useCart();
+export default function CheckoutSummary({ cart }: { cart: Cart }) {
   const [openModal, setOpenModal] = useState(false);
 
   const shipping = 50;
@@ -19,6 +18,10 @@ export default function CheckoutSummary() {
   );
 
   const totalPrice = totalCartPrice + shipping + vat;
+
+  function handleSubmit() {
+    // setOpenModal(!openModal);
+  }
 
   return (
     <>
@@ -72,7 +75,7 @@ export default function CheckoutSummary() {
           </div>
         </div>
 
-        <Button className="w-full" onClick={() => setOpenModal(!openModal)}>
+        <Button type="submit" form="checkout-form" className="w-full">
           Continue & Pay
         </Button>
       </div>
