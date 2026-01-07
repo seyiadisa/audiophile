@@ -1,14 +1,17 @@
 "use client";
 
+import CheckoutConfirmation from "@/components/checkout/confirmation-modal";
 import CheckoutForm from "@/components/checkout/form";
 import CheckoutSummary from "@/components/checkout/summary";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/providers/cart-provider";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Checkout() {
   const router = useRouter();
   const { cart } = useCart();
+  const [openModal, setOpenModal] = useState(false);
 
   if (cart.length === 0) {
     return (
@@ -31,8 +34,13 @@ export default function Checkout() {
       </section>
       <section className="rounded-md bg-white px-6 py-8 md:px-[33px] xl:flex-1">
         <h1 className="text-h4 mb-8">Summary</h1>
-        <CheckoutSummary cart={cart} />
+        <CheckoutSummary />
       </section>
+
+      <CheckoutConfirmation
+        open={openModal}
+        onOpenChange={(open) => setOpenModal(open)}
+      />
     </main>
   );
 }

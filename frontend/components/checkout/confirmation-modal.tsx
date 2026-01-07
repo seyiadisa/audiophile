@@ -15,15 +15,13 @@ import { Separator } from "../ui/separator";
 import { Check } from "lucide-react";
 
 export default function CheckoutConfirmation({
-  totalPrice,
   open,
   onOpenChange,
 }: {
-  totalPrice: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { cart } = useCart();
+  const { cart, totalPrice } = useCart();
   const item = cart[0];
 
   return (

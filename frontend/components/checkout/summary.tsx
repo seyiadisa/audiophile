@@ -3,25 +3,10 @@
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useState } from "react";
-import CheckoutConfirmation from "./confirmation-modal";
-import { type Cart } from "@/types";
+import { useCart } from "@/providers/cart-provider";
 
-export default function CheckoutSummary({ cart }: { cart: Cart }) {
-  const [openModal, setOpenModal] = useState(false);
-
-  const shipping = 50;
-  const vat = 1079;
-  const totalCartPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  const totalPrice = totalCartPrice + shipping + vat;
-
-  function handleSubmit() {
-    // setOpenModal(!openModal);
-  }
+export default function CheckoutSummary() {
+  const { cart, totalCartPrice, totalPrice, shipping, vat } = useCart();
 
   return (
     <>
@@ -79,12 +64,6 @@ export default function CheckoutSummary({ cart }: { cart: Cart }) {
           Continue & Pay
         </Button>
       </div>
-
-      <CheckoutConfirmation
-        totalPrice={totalCartPrice}
-        open={openModal}
-        onOpenChange={(open) => setOpenModal(open)}
-      />
     </>
   );
 }
