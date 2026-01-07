@@ -1,4 +1,6 @@
+import { checkoutSchema } from "@/schema";
 import { StaticImageData } from "next/image";
+import { z } from "zod/v4";
 
 export type Product = {
   isNew: boolean;
@@ -27,3 +29,8 @@ export type CartItem = {
 };
 
 export type Cart = CartItem[];
+
+export type CheckoutData = z.infer<typeof checkoutSchema>;
+
+export type CheckoutError =
+  z.core.$ZodFlattenedError<CheckoutData>["fieldErrors"];
