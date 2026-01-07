@@ -52,29 +52,26 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-const fieldVariants = cva(
-  "group/field flex w-full gap-[9px] data-[invalid=true]:text-destructive",
-  {
-    variants: {
-      orientation: {
-        vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
-        horizontal: [
-          "flex-row items-center",
-          "[&>[data-slot=field-label]]:flex-auto",
-          "has-[>[data-slot=field-content]]:items-start has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px has-[&>[role=checkbox],[role=radio]]:gap-4",
-        ],
-        responsive: [
-          "flex-col [&>*]:w-full [&>.sr-only]:w-auto @md/field-group:flex-row @md/field-group:items-center @md/field-group:[&>*]:w-auto",
-          "@md/field-group:[&>[data-slot=field-label]]:flex-auto",
-          "@md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
-        ],
-      },
+const fieldVariants = cva("group/field flex w-full gap-[9px]", {
+  variants: {
+    orientation: {
+      vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
+      horizontal: [
+        "flex-row items-center",
+        "[&>[data-slot=field-label]]:flex-auto",
+        "has-[>[data-slot=field-content]]:items-start has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px has-[&>[role=checkbox],[role=radio]]:gap-4",
+      ],
+      responsive: [
+        "flex-col [&>*]:w-full [&>.sr-only]:w-auto @md/field-group:flex-row @md/field-group:items-center @md/field-group:[&>*]:w-auto",
+        "@md/field-group:[&>[data-slot=field-label]]:flex-auto",
+        "@md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
+      ],
     },
-    defaultVariants: {
-      orientation: "vertical",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    orientation: "vertical",
+  },
+});
 
 function Field({
   className,
@@ -115,7 +112,7 @@ function FieldLabel({
       className={cn(
         "group/field-label peer/field-label flex w-fit gap-[9px] text-xs leading-snug font-bold tracking-[-0.21px] group-data-[disabled=true]/field:opacity-50",
         "hover:has-[>[data-slot=field]]:border-primary has-[>[data-slot=field]]:h-14 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border has-[>[data-slot=field]]:border-[#CFCFCF] *:data-[slot=field]:p-4",
-        "has-data-[state=checked]:border-primary!",
+        "has-data-[state=checked]:border-primary! data-[invalid=true]:text-destructive data-error:[&>span]:text-destructive data-error:justify-between data-error:[&>span]:text-end data-error:[&>span]:text-xs",
         className
       )}
       {...props}

@@ -8,6 +8,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-muted: var(--primary-muted);
   --color-muted: var(--muted);
+  --color-destructive: #CD2C2C;
   --font-manrope: var(--font-manrope);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
