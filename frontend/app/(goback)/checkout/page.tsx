@@ -29,7 +29,7 @@ export default function Checkout() {
       <section className="rounded-md bg-white p-6 pb-8 md:px-7 md:pt-[30px] lg:px-12 lg:pt-[54px] lg:pb-12 xl:flex-2">
         <h1 className="text-h4 md:text-h3 mb-8 md:mb-[41px]">Checkout</h1>
         <div className="w-full">
-          <CheckoutForm />
+          <CheckoutForm openModal={setOpenModal} />
         </div>
       </section>
       <section className="rounded-md bg-white px-6 py-8 md:px-[33px] xl:flex-1">

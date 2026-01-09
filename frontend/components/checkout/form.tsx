@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import checkout from "@/actions/checkout";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import type { CheckoutData, CheckoutError } from "@/types";
 
 const initialState: CheckoutData = {
@@ -26,11 +26,23 @@ const initialState: CheckoutData = {
   eMoneyNumber: "",
   eMoneyPin: "",
 };
-export default function CheckoutForm() {
+export default function CheckoutForm({
+  openModal,
+}: {
+  openModal: (open: boolean) => void;
+}) {
   const [state, formAction] = useActionState(checkout, {
+    success: false,
     data: initialState,
     error: {} as CheckoutError,
   });
+
+  useEffect(() => {
+    if (state.success) {
+      openModal(true);
+    }
+  }, [state.success, openModal]);
+
   const [paymentMethod, setPaymentMethod] = useState(state.data.paymentMethod);
 
   return (
