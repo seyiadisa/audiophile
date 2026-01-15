@@ -3,7 +3,7 @@ import Tagline from "@/components/landing/tagline";
 import { products } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
-import AddToCart from "../../../../components/cart/add-to-cart";
+import AddToCart from "@/components/cart/add-to-cart";
 
 export default async function ProductInfoPage({
   params,
