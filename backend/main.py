@@ -6,9 +6,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from models import OrderCreate
-from db import create_db_and_tables
-from api.routes import product_router, admin_router
+from models.order import OrderCreate
+from db.database import create_db_and_tables
+from api.routes import product, admin
 
 
 @asynccontextmanager
@@ -29,8 +29,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(product_router)
-app.include_router(admin_router)
+app.include_router(product.router)
+app.include_router(admin.router)
 
 
 @app.get("/")
