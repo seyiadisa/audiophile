@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.models.order import OrderCreate
-from app.db.database import create_db_and_tables
+from app.db import create_db_and_tables
 from app.api.routes import product, admin
 
 

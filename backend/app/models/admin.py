@@ -29,9 +29,7 @@ class Admin(AdminBase, table=True):
 
 
 class AdminLogin(AdminBase):
-    @field_validator("password")
-    def validate_password(cls, v: str):
-        return validate_password_strength(v)
+    pass
 
 
 class AdminSignup(AdminBase):
