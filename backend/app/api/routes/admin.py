@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Form
-from models.admin import AdminLogin, AdminSignup, Admin
-from db.database import SessionDep
+from app.models.admin import AdminLogin, AdminSignup, Admin
+from app.db.database import SessionDep
 
 
 router = APIRouter()
