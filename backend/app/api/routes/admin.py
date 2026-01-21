@@ -21,12 +21,12 @@ async def login(form: Annotated[AdminLogin, Form()], session: SessionDep):
     return Token(access_token=generate_access_token(subject=email))
 
 
-@router.post("/admin/signup")
+@router.post("/admin/signup", status_code=201)
 async def signup(form: Annotated[AdminSignup, Form()], session: SessionDep):
     admin = get_admin_by_email(session, form.email)
 
     if admin:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=409, detail="Email already registered")
 
     admin = Admin.model_validate(
         {**form.model_dump(), "password": get_password_hash(form.password)}
