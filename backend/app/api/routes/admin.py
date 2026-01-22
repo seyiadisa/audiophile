@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Form, HTTPException
 from app.models.admin import AdminLogin, AdminSignup, Admin
-from app.db import SessionDep
+from app.dependencies import SessionDep
 from app.utils import generate_access_token, get_password_hash
 from app.crud import authenticate, get_admin_by_email
 from app.models.token import Token
