@@ -33,3 +33,44 @@ export const checkoutSchema = z
       }
     }
   });
+
+export const loginSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(1, "Please enter a password"),
+});
+
+export const newProductSchema = z.object({
+  shortName: z.string().min(1, "Short name is required"),
+  name: z.string().min(1, "Name is required"),
+  price: z.string().regex(/^\d+$/, "Invalid price format"),
+  details: z.string().min(1, "Product details are required"),
+  features: z.string().min(1, "Features is required"),
+  category: z
+    .enum(["headphones", "speakers", "earphones"])
+    .refine((val) => val, { message: "Product category is required" }),
+  inTheBox: z
+    .record(
+      z.string(),
+      z
+        .string()
+        .regex(/^\d+$/, { error: "Invalid quantity format", abort: true })
+    )
+    .refine((val) => Object.keys(val).length > 0, {
+      error: "At least one item is required in the box",
+    })
+    .refine(
+      (val) =>
+        Object.entries(val).every(([key, value]) => {
+          return value !== "" && key !== "";
+        }),
+      {
+        error: "No empty fields allowed",
+      }
+    ),
+  image: z
+    .instanceof(File)
+    .nullable()
+    .refine((file) => file && file.type.includes("image/"), {
+      error: "Only images are allowed",
+    }),
+});
