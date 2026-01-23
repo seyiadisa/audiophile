@@ -110,9 +110,9 @@ function FieldLabel({
     <Label
       data-slot="field-label"
       className={cn(
-        "group/field-label peer/field-label flex w-fit gap-[9px] text-xs leading-snug font-bold tracking-[-0.21px] group-data-[disabled=true]/field:opacity-50",
+        "group/field-label peer/field-label flex w-fit gap-1 text-xs leading-snug font-bold tracking-[-0.21px] *:flex-1 group-data-[disabled=true]/field:opacity-50",
         "hover:has-[>[data-slot=field]]:border-primary has-[>[data-slot=field]]:h-14 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border has-[>[data-slot=field]]:border-[#CFCFCF] *:data-[slot=field]:p-4",
-        "has-data-[state=checked]:border-primary! data-[invalid=true]:text-destructive data-error:[&>span]:text-destructive data-error:justify-between data-error:[&>span]:text-end data-error:[&>span]:text-xs",
+        "has-data-[state=checked]:border-primary! data-[invalid=true]:text-destructive data-error:[&>span]:text-destructive data-required:after:text-destructive data-error:justify-between data-required:after:content-['*'] data-error:[&>span]:order-last data-error:[&>span]:text-end data-error:[&>span]:text-xs",
         className
       )}
       {...props}

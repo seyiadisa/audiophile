@@ -59,6 +59,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="name"
               data-invalid={!!state.error.name}
+              data-required
             >
               Name
               <span>{state.error.name}</span>
@@ -69,6 +70,7 @@ export default function CheckoutForm({
               name="name"
               defaultValue={state.data.name}
               aria-invalid={!!state.error.name}
+              required
             />
           </Field>
           <Field>
@@ -76,6 +78,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="email"
               data-invalid={!!state.error.email}
+              data-required
             >
               Email Address
               <span>{state.error.email}</span>
@@ -86,6 +89,7 @@ export default function CheckoutForm({
               name="email"
               defaultValue={state.data.email}
               aria-invalid={!!state.error.email}
+              required
             />
           </Field>
           <Field>
@@ -93,6 +97,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="phone"
               data-invalid={!!state.error.phone}
+              data-required
             >
               Phone Number
               <span>{state.error.phone}</span>
@@ -103,6 +108,7 @@ export default function CheckoutForm({
               name="phone"
               defaultValue={state.data.phone}
               aria-invalid={!!state.error.phone}
+              required
             />
           </Field>
         </FieldGroup>
@@ -116,6 +122,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="address"
               data-invalid={!!state.error.address}
+              data-required
             >
               Your Address
               <span>{state.error.address}</span>
@@ -126,6 +133,7 @@ export default function CheckoutForm({
               name="address"
               defaultValue={state.data.address}
               aria-invalid={!!state.error.address}
+              required
             />
           </Field>
           <Field>
@@ -133,6 +141,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="zip"
               data-invalid={!!state.error.zip}
+              data-required
             >
               ZIP Code
               <span>{state.error.zip}</span>
@@ -143,6 +152,7 @@ export default function CheckoutForm({
               name="zip"
               defaultValue={state.data.zip}
               aria-invalid={!!state.error.zip}
+              required
             />
           </Field>
           <Field>
@@ -150,6 +160,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="city"
               data-invalid={!!state.error.city}
+              data-required
             >
               City
               <span>{state.error.city}</span>
@@ -160,6 +171,7 @@ export default function CheckoutForm({
               name="city"
               defaultValue={state.data.city}
               aria-invalid={!!state.error.city}
+              required
             />
           </Field>
           <Field>
@@ -167,6 +179,7 @@ export default function CheckoutForm({
               data-error
               htmlFor="country"
               data-invalid={!!state.error.country}
+              data-required
             >
               Country
               <span>{state.error.country}</span>
@@ -177,6 +190,7 @@ export default function CheckoutForm({
               name="country"
               defaultValue={state.data.country}
               aria-invalid={!!state.error.country}
+              required
             />
           </Field>
         </FieldGroup>
@@ -255,6 +269,7 @@ export default function CheckoutForm({
                 data-error
                 htmlFor="eMoneyNumber"
                 data-invalid={!!state.error.eMoneyNumber}
+                data-required
               >
                 e-Money Number
                 <span>{state.error.eMoneyNumber}</span>
@@ -265,6 +280,7 @@ export default function CheckoutForm({
                 name="eMoneyNumber"
                 defaultValue={state.data.eMoneyNumber}
                 aria-invalid={!!state.error.eMoneyNumber}
+                required={paymentMethod === "e-money"}
               />
             </Field>
             <Field>
@@ -272,6 +288,7 @@ export default function CheckoutForm({
                 data-error
                 htmlFor="eMoneyPin"
                 data-invalid={!!state.error.eMoneyPin}
+                data-required
               >
                 e-Money PIN
                 <span>{state.error.eMoneyPin}</span>
@@ -282,6 +299,7 @@ export default function CheckoutForm({
                 name="eMoneyPin"
                 defaultValue={state.data.eMoneyPin}
                 aria-invalid={!!state.error.eMoneyPin}
+                required={paymentMethod === "e-money"}
               />
             </Field>
           </FieldGroup>

@@ -25,12 +25,14 @@ const buttonVariants = cva(
 function Button({
   className,
   variant,
+  showArrow,
   asChild = false,
   children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    showArrow?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
   return (
@@ -41,7 +43,9 @@ function Button({
     >
       <span>
         {children}
-        {variant === "ghost" && <ChevronRight className="text-primary" />}
+        {variant === "ghost" && showArrow && (
+          <ChevronRight className="text-primary" />
+        )}
       </span>
     </Comp>
   );
