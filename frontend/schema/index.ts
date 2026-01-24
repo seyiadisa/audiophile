@@ -37,6 +37,7 @@ export const checkoutSchema = z
 export const loginSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(1, "Please enter a password"),
+  rememberMe: z.boolean({ error: "Invalid value for remember me" }),
 });
 
 export const newProductSchema = z.object({
