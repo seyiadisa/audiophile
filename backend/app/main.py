@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.models.order import OrderCreate
 from app.db import create_db_and_tables
-from app.api.routes import product, admin
+from app.api.main import api_router
 
 
 @asynccontextmanager
@@ -29,8 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(product.router)
-app.include_router(admin.router)
+app.include_router(api_router)
 
 
 @app.get("/")
