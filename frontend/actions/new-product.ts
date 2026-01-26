@@ -2,15 +2,18 @@
 
 import { newProductSchema } from "@/schema";
 import { NewProductData, NewProductError } from "@/types";
+import { redirect } from "next/navigation";
 import { z } from "zod/v4";
 
 type State = {
   success: boolean;
   data: NewProductData;
-  error: NewProductError;
+  errors: NewProductError;
+  message?: string;
 };
 
 export default async function createNewProduct(
+  token: string,
   _prevState: State,
   formData: FormData
 ) {
@@ -26,9 +29,41 @@ export default async function createNewProduct(
     return {
       success: false,
       data: data as unknown as NewProductData,
-      error: errors,
+      errors,
     };
   }
 
-  return { success: true, data: validatedData.data, error: {} };
+  const res = await fetch(`${process.env.API_BASE_URL}/products`, {
+    body: formData,
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    redirect("/admin/login");
+  }
+
+  const resData = await res.json();
+
+  console.log(resData);
+
+  if (res.status !== 201) {
+    return {
+      success: false,
+      data: validatedData.data,
+      errors: {},
+      message: Array.isArray(resData.detail)
+        ? resData.detail[0].msg
+        : resData.detail,
+    };
+  }
+
+  return {
+    success: true,
+    data: {} as NewProductData,
+    errors: {} as NewProductError,
+    message: resData.message,
+  };
 }

@@ -5,10 +5,17 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { NewProductData, NewProductError } from "@/types";
-import { startTransition, useActionState, useRef, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "../ui/button";
 import createNewProduct from "@/actions/new-product";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
+import { useAuth } from "@/providers/auth-provider";
 
 const initialProductState: NewProductData = {
   shortName: "",
@@ -24,11 +31,20 @@ const initialProductState: NewProductData = {
 };
 
 export default function NewProductDialog() {
-  const [state, formAction, pending] = useActionState(createNewProduct, {
-    success: false,
-    data: initialProductState,
-    error: {} as NewProductError,
-  });
+  const auth = useAuth();
+  const createNewProductWithToken = createNewProduct.bind(
+    null,
+    auth.accessToken as string
+  );
+
+  const [state, formAction, pending] = useActionState(
+    createNewProductWithToken,
+    {
+      success: false,
+      data: initialProductState,
+      errors: {} as NewProductError,
+    }
+  );
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -41,6 +57,16 @@ export default function NewProductDialog() {
   const [boxItems, setBoxItems] = useState<NewProductData["inTheBox"]>(
     state.data.inTheBox
   );
+
+  useEffect(() => {
+    if (state.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsModalOpen(false);
+      setBoxItems({ "": "" });
+      setCategory("headphones");
+      setFileName("");
+    }
+  }, [state.success]);
 
   const handleImageUpload = () => {
     if (!fileInputRef.current) return null;
@@ -111,7 +137,7 @@ export default function NewProductDialog() {
                 onClick={() => setIsModalOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
-                ✕
+                <X />
               </button>
             </div>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
@@ -119,7 +145,7 @@ export default function NewProductDialog() {
                 <Field>
                   <FieldLabel data-error data-required htmlFor="name">
                     Product Name
-                    <span>{state.error.name}</span>
+                    <span>{state.errors?.name}</span>
                   </FieldLabel>
                   <Input
                     id="name"
@@ -132,7 +158,7 @@ export default function NewProductDialog() {
                 <Field>
                   <FieldLabel data-error data-required htmlFor="shortName">
                     Short Name
-                    <span>{state.error.shortName}</span>
+                    <span>{state.errors?.shortName}</span>
                   </FieldLabel>
                   <Input
                     id="shortName"
@@ -145,7 +171,7 @@ export default function NewProductDialog() {
                 <Field>
                   <FieldLabel data-error data-required htmlFor="price">
                     Price
-                    <span>{state.error.price}</span>
+                    <span>{state.errors?.price}</span>
                   </FieldLabel>
                   <Input
                     type="number"
@@ -160,7 +186,7 @@ export default function NewProductDialog() {
                 <Field>
                   <FieldLabel data-error data-required htmlFor="category">
                     Category
-                    <span>{state.error.category}</span>
+                    <span>{state.errors?.category}</span>
                   </FieldLabel>
                   <RadioGroup
                     value={category}
@@ -187,7 +213,7 @@ export default function NewProductDialog() {
                 <Field className="md:col-span-2">
                   <FieldLabel data-error data-required htmlFor="details">
                     Details
-                    <span>{state.error.details}</span>
+                    <span>{state.errors?.details}</span>
                   </FieldLabel>
                   <Textarea
                     id="details"
@@ -201,7 +227,7 @@ export default function NewProductDialog() {
                 <Field className="md:col-span-2">
                   <FieldLabel data-error data-required htmlFor="features">
                     Features
-                    <span>{state.error.features}</span>
+                    <span>{state.errors?.features}</span>
                   </FieldLabel>
                   <Textarea
                     id="features"
@@ -245,12 +271,12 @@ export default function NewProductDialog() {
                     type="file"
                     id="image"
                     name="image"
-                    hidden
+                    className="hidden size-0"
                     onChange={handleFileChange}
                   />
                 </div>
                 <span className="text-destructive block text-sm">
-                  {state.error.image}
+                  {state.errors?.image}
                 </span>
               </Field>
 
@@ -296,7 +322,7 @@ export default function NewProductDialog() {
                   </FieldGroup>
                 ))}
                 <span className="text-destructive block text-sm">
-                  {state.error.inTheBox}
+                  {state.errors?.inTheBox}
                 </span>
                 <Button
                   showArrow={false}
