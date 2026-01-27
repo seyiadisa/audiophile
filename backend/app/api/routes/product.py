@@ -1,5 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Annotated
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, Form, File
+from fastapi.exceptions import RequestValidationError
 from sqlmodel import select
+from pydantic import ValidationError
+
 from app.models.product import Product, ProductCreate, ProductUpdate, ProductPublic
 from app.dependencies import SessionDep, validate_token
 
@@ -27,11 +31,36 @@ async def get_product(product_id: int, session: SessionDep):
     status_code=201,
     dependencies=[Depends(validate_token)],
 )
-async def create_product(session: SessionDep, product: ProductCreate):
-    new_product = Product.model_validate(product)
-    session.add(new_product)
-    session.commit()
-    session.refresh(new_product)
+async def create_product(
+    session: SessionDep,
+    # image: Annotated[UploadFile, File()],
+    name: Annotated[str, Form()],
+    price: Annotated[int, Form()],
+    details: Annotated[str, Form()],
+    features: Annotated[str, Form()],
+    inTheBox: Annotated[str, Form()],
+    category: Annotated[str, Form()],
+    shortName: Annotated[str | None, Form()] = None,
+):
+    try:
+        product_data = {
+            "name": name,
+            "price": price,
+            "details": details,
+            "features": features,
+            "inTheBox": inTheBox,
+            "category": category,
+            "shortName": shortName,
+        }
+
+        product = ProductCreate.model_validate(product_data)
+    except ValidationError as e:
+        raise RequestValidationError(errors=e.errors())
+
+    # new_product = Product.model_validate(product)
+    # session.add(new_product)
+    # session.commit()
+    # session.refresh(new_product)
 
     return {"message": "Product created successfully!"}
 

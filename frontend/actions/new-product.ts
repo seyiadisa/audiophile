@@ -41,7 +41,7 @@ export default async function createNewProduct(
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
+  if (res.status === 401) {
     redirect("/admin/login");
   }
 
