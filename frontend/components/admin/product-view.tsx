@@ -1,6 +1,7 @@
 "use client";
 
 import { Product } from "@/types";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function ProductView() {
@@ -59,7 +60,7 @@ export default function ProductView() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredProducts.map((product, idx) => (
             <div key={idx} className="rounded border p-4 shadow">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 className="mb-4 h-48 w-full rounded object-cover"
